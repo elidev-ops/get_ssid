@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exploit by samsepi0l</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet"> 
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background-color: #000;
+        color: #0f0;
+        padding: 10px;
+        font-family: 'Space Mono', monospace;
+    }
+
+    table {
+        width: 100%;
+        border: 1px solid #0f0;
+        border-spacing: 2px;
+        border-collapse: collapse;
+        font-size: 14px;
+    }
+
+    table thead {
+        border-bottom: 1px solid #0f0;
+        font-style: italic;
+    }
+    table tr {
+        margin: 0;
+    }
+
+    table tr td {
+        border-bottom: 1px dashed #0f0;
+        margin: 0;
+        padding: 5px;
+        text-align: center;
+    }
+
+    input {
+        background-color: transparent;
+        border: 1px solid #0f0;
+        padding: 5px 10px;
+        margin-bottom: 10px;
+        color: #0f0;
+    }
+
+    input::placeholder {
+        color: #0f0;
+    }
+    
+</style>
+<body>
+    <input type="text" placeholder="Pesquisar nome do wifi">
+    <table>
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>ssid</th>
+                <th>security</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.js"></script>
+    <script>
+        function createElements(id, obj) {
+            const tr = document.createElement('tr')
+            const td_id = document.createElement('td')
+            td_id.textContent = id+1
+            tr.appendChild(td_id)
+
+            const td_ssid = document.createElement('td')
+            td_ssid.textContent = obj.ssid
+            tr.appendChild(td_ssid)
+            const td_security = document.createElement('td')
+            td_security.textContent = obj.security
+            tr.appendChild(td_security)
+
+            $('tbody')[0].appendChild(tr)
+        }
+        const $ = document.querySelectorAll.bind(document)
+        let id = 0
+        axios.get('./src/file.json')
+            .then(response => {
+                $('input')[0].addEventListener('keyup', e => {
+                    $('tbody')[0].innerHTML = ''
+
+                    let fil = response.data.filter(item => item.ssid.toLowerCase().indexOf(e.target.value) != -1)
+                    fil.map((item, index) => {
+                        createElements(index, item)
+                    })
+                })
+                
+                response.data.map((item, index) => {
+                    createElements(index, item)
+                })
+            })
+    </script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+    # def ErrorTreatments(self, data):
+    #     ip_urls = [
+    #         '10.0.0.1',
+    #         '10.0.1.1',
+    #         '10.1.1.1',
+    #         '192.168.0.1',
+    #         '192.168.1.1',
+    #         '192.168.2.1'
+    #     ]
+    #     if data.status_code in range(400, 599):
+    #         yield 'Error'
+    #     if data.status_code == 302:
+    #         a = data.headers['Location'].split('/')
+    #         if 'login' in a[3].split('.'):
+    #             yield 'Redirect'
+    #         elif re.sub('[http://]', '', data.headers['Location']) in ip_urls:
+    #             yield 'Other'
+    #         else:
+    #             yield 'Success'
